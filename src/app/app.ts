@@ -10,7 +10,7 @@ import {FormsModule} from '@angular/forms';
   styleUrl: './app.scss'
 })
 export class App implements OnInit {
-  protected readonly title = signal('angular-v-21');
+  protected readonly title = signal('angular-supabase');
   http = inject(HttpClient);
   data: WritableSignal<any> = signal([]);
   email: string = ''

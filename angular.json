@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "angular-v-21": {
+    "angular-supabase": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -67,10 +67,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "angular-v-21:build:production"
+              "buildTarget": "angular-supabase:build:production"
             },
             "development": {
-              "buildTarget": "angular-v-21:build:development"
+              "buildTarget": "angular-supabase:build:development"
             }
           },
           "defaultConfiguration": "development"

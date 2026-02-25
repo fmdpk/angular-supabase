@@ -1,5 +1,5 @@
 {
-  "name": "angular-v-21",
+  "name": "angular-supabase",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:angular-v-21": "node dist/angular-v-21/server/server.mjs"
+    "serve:ssr:angular-supabase": "node dist/angular-supabase/server/server.mjs"
   },
   "prettier": {
     "printWidth": 100,
