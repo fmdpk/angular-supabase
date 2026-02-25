@@ -1,6 +1,6 @@
-import {Component, inject, OnInit, signal, WritableSignal} from '@angular/core';
+import {Component, Inject, inject, OnInit, PLATFORM_ID, signal, WritableSignal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {JsonPipe} from '@angular/common';
+import {isPlatformBrowser, JsonPipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 
 @Component({
@@ -15,21 +15,43 @@ export class App implements OnInit {
   data: WritableSignal<any> = signal([]);
   email: string = ''
   otp: string = ''
+  supabaseSession: any
+  private isBrowser: boolean = false
+
+  constructor(@Inject(PLATFORM_ID) private platformId: any) {
+    this.isBrowser = isPlatformBrowser(platformId)
+  }
 
   ngOnInit() {
+    if (this.isBrowser) {
+      this.supabaseSession = localStorage.getItem('verify-otp-res')
+      console.log(this.supabaseSession)
+    }
   }
 
   signIn() {
-    this.http.post('http://localhost:3000/auth/signin-otp', {email: this.email}).subscribe(res => {
-      console.log(res)
-    })
+    if (!this.supabaseSession) {
+      this.http.post('http://localhost:3000/auth/signin-otp', {email: this.email}).subscribe(res => {
+        console.log(res)
+      })
+    } else {
+      this.getTasks()
+    }
   }
 
-  verifyOTP(){
-    this.http.post('http://localhost:3000/auth/verify-signin-otp', {email: this.email, otp: this.otp}).subscribe(res => {
-      console.log(res)
-      localStorage.setItem('verify-otp-res', JSON.stringify(res))
-    })
+  verifyOTP() {
+    if (!this.supabaseSession) {
+      this.http.post('http://localhost:3000/auth/verify-signin-otp', {
+        email: this.email,
+        otp: this.otp
+      }).subscribe(res => {
+        console.log(res)
+        this.supabaseSession = res
+        localStorage.setItem('verify-otp-res', JSON.stringify(res))
+      })
+    } else {
+      this.getTasks()
+    }
   }
 
   getTasks() {
